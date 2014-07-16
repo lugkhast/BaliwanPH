@@ -21,14 +21,21 @@ size = Dimension(30, 30)
 city = City(population, size)
 
 running = True
-while running:
-    cmd = raw_input('> ')
-    city.tick()
+try:
+    while running:
+        cmd = raw_input('> ')
+        city.tick()
 
-    print
-    print '=' * 80
-    print
-    renderer = CLIRenderer(city)
-    print renderer.get_screen()
+        print
+        print '=' * 80
+        print
+        renderer = CLIRenderer(city)
+        print renderer.get_screen()
 
-    running = city.get_num_residents() > 0
+        running = city.get_num_residents() > 0
+except KeyboardInterrupt:
+    print
+    pass
+except EOFError:
+    print
+    pass
