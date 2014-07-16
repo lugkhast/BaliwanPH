@@ -25,5 +25,8 @@ class City(object):
         if num_population == 0:
             print 'Nobody is left!'
         else:
-            print 'Person 0 has $%d' % population[0].money
-            print 'Person 0 has %d health' % population[0].health
+            healths = '|'.join([str(p.health) for p in population])
+            moneys = '|'.join([str(p.money) for p in population])
+
+            print 'Moneys:  %s' % moneys
+            print 'Healths: %s' % healths

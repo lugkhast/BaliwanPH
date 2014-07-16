@@ -11,7 +11,7 @@ from life import *
 from city import City
 
 
-population = [Person() for i in range(0, 10)]
+population = [Person() for i in range(0, 15)]
 for person in population:
     person.jobs.append(Job('Assistant Baliwan Engineer'))
     person.diseases.append(Disease('Diabeetus', 10, 5))

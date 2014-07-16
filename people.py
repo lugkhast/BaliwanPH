@@ -57,7 +57,7 @@ class Person(object):
         self.happiness += int(random() * happiness_fuzz) - (happiness_fuzz / 2)
         self.jobs = []
         self.diseases = []
-        self.home = None
+        self._home = None
 
     def should_be_dead(self):
         return self.health == _PersonConstants.HEALTH_FLOOR
