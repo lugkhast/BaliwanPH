@@ -47,8 +47,14 @@ for person in population:
 
 
 def show_status():
-    print 'Population: %d' % len(population)
-    print 'Person 0 has $%d' % population[0].money
+    num_population = len(population)
+    print 'Population: %d' % num_population
+
+    if num_population == 0:
+        print 'Nobody is left!'
+    else:
+        print 'Person 0 has $%d' % population[0].money
+        print 'Person 0 has %d happiness' % population[0].happiness
 
 
 running = True
@@ -59,5 +65,9 @@ while running:
     for person in population:
         person.tick()
 
+    population = [p for p in population if p.alive]
+
     print '====='
     show_status()
+
+    running = len(population) > 0
