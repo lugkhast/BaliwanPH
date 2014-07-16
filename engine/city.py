@@ -1,11 +1,11 @@
 
 class City(object):
-    def __init__(self, population=None, size_x=100, size_y=100):
+    def __init__(self, population, dimensions):
         self.population = population or []
 
         # Generate a size_x by size_y grid of None
         self.grid = [
-            [None for x in range(0, size_y)] for x in range(0, size_x)
+            [None for x in range(0, dimensions.y)] for x in range(0, dimensions.x)
         ]
 
     def tick(self):
