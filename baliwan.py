@@ -5,10 +5,10 @@
 
 from random import random
 
-from people import *
-from buildings import *
-from life import *
-from city import City
+from engine.people import *
+from engine.buildings import *
+from engine.life import *
+from engine.city import City
 
 
 population = [Person() for i in range(0, 15)]
