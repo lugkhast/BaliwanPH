@@ -2,6 +2,9 @@
 from random import random
 
 class Person(object):
+    HAPPINESS_FLOOR = -25
+    HAPPINESS_CEILING = 100
+
     _happiness = 50
 
     intellect = 0
@@ -24,10 +27,10 @@ class Person(object):
 
     @happiness.setter
     def happiness(self, value):
-        if value < 0:
-            value = 0
-        elif value > 100:
-            value = 100
+        if value < self.HAPPINESS_FLOOR:
+            value = self.HAPPINESS_FLOOR
+        elif value > self.HAPPINESS_CEILING:
+            value = self.HAPPINESS_CEILING
 
         self._happiness = value
     
@@ -38,7 +41,7 @@ class Person(object):
         self.home = None
 
     def should_be_dead(self):
-        return self.happiness == 0
+        return self.happiness == self.HAPPINESS_FLOOR
     
     def tick(self):
         self.happiness -= self.boredom_rate
