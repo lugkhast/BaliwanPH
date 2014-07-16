@@ -1,6 +1,7 @@
 
 from random import random
 
+
 class Job(object):
     def __init__(self, title, salary=1000):
         self.title = title
@@ -23,8 +24,8 @@ class Disease(object):
 
     def apply_effect(self, person):
         fuzz = self.fuzz
-        
-        final_fuzz = (random() * fuzz) - (fuzz / 2)
-        final_damage = self.base_damage + (random() * fuzz) - (fuzz / 2)
+
+        random_fuzz = (random() * fuzz) - (fuzz / 2)
+        final_damage = self.base_damage + random_fuzz
 
         person.health -= int(final_damage)
