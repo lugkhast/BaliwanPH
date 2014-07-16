@@ -19,6 +19,9 @@ for person in population:
 
 size = Dimension(30, 30)
 city = City(population, size)
+renderer = CLIRenderer(city)
+city.zone(0x01, Dimension(0, 0), Dimension(5, 5))
+city.zone(0x02, Dimension(6, 6), Dimension(11, 11))
 
 running = True
 try:
@@ -29,7 +32,6 @@ try:
         print
         print '=' * 80
         print
-        renderer = CLIRenderer(city)
         print renderer.get_screen()
 
         running = city.get_num_residents() > 0

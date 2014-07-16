@@ -5,15 +5,32 @@
 
 from StringIO import StringIO
 
+from engine.city import ZoneType
+
 
 class CLIRenderer(object):
+
+    _zone_representations = {
+        ZoneType.UNZONED: '.',
+        ZoneType.ALL_TYPES: 'a',
+        ZoneType.RESIDENTIAL: 'r',
+        ZoneType.COMMERCIAL: 'c',
+        ZoneType.INDUSTRIAL: 'i'
+    }
 
     def __init__(self, city):
         self.city = city
 
-    def get_representation(self, grid_entity):
-        if grid_entity == None:
-            return '.'
+    def get_representation(self, tile):
+        zone_reps = self._zone_representations
+
+        # Use only the RCI bits
+        rci_type = tile.zone_type & ZoneType.ALL_TYPES
+
+        if zone_reps.has_key(rci_type):
+            return zone_reps[rci_type]
+        else:
+            return '?'
 
     def get_screen(self):
         grid = self.city.grid
