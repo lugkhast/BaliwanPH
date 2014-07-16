@@ -1,11 +1,16 @@
 
 from random import random
 
-class Person(object):
+class _PersonConstants(object):
     HAPPINESS_FLOOR = -25
     HAPPINESS_CEILING = 100
 
+    HEALTH_FLOOR = 0
+    HEALTH_CEILING = 100
+
+class Person(object):
     _happiness = 50
+    _health = _PersonConstants.HEALTH_CEILING
 
     intellect = 0
     money = 0
@@ -16,21 +21,34 @@ class Person(object):
     @property
     def home(self):
         return self._home
-
     @home.setter
     def home(self, value):
         self._home = value
 
     @property
+    def health(self):
+        return self._health
+    @health.setter
+    def health(self, value):
+        minimum = _PersonConstants.HEALTH_FLOOR
+        maximum = _PersonConstants.HEALTH_CEILING
+
+        if value < minimum:
+            value = minimum
+        elif value > maximum:
+            value = maximum
+
+        self._health = value
+    
+    @property
     def happiness(self):
         return self._happiness
-
     @happiness.setter
     def happiness(self, value):
-        if value < self.HAPPINESS_FLOOR:
-            value = self.HAPPINESS_FLOOR
-        elif value > self.HAPPINESS_CEILING:
-            value = self.HAPPINESS_CEILING
+        if value < _PersonConstants.HAPPINESS_FLOOR:
+            value = _PersonConstants.HAPPINESS_FLOOR
+        elif value > _PersonConstants.HAPPINESS_CEILING:
+            value = _PersonConstants.HAPPINESS_CEILING
 
         self._happiness = value
     
@@ -38,13 +56,15 @@ class Person(object):
     def __init__(self, happiness_fuzz=10):
         self.happiness += int(random() * happiness_fuzz) - (happiness_fuzz / 2)
         self.jobs = []
+        self.diseases = []
         self.home = None
 
     def should_be_dead(self):
-        return self.happiness == self.HAPPINESS_FLOOR
+        return self.health == _PersonConstants.HEALTH_FLOOR
     
     def tick(self):
-        self.happiness -= self.boredom_rate
+        for disease in self.diseases:
+            disease.apply_effect(self)
 
         if self.home is None:
             self.happiness -= self.boredom_rate * 5
