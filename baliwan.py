@@ -10,6 +10,7 @@ from engine.buildings import *
 from engine.life import *
 from engine.city import City
 from renderers.cli import CLIRenderer
+from renderers.pygame.app import BaliwanApplication
 
 
 population = [Person() for i in range(0, 15)]
@@ -25,16 +26,18 @@ city.zone(0x02, Dimension(6, 6), Dimension(11, 11))
 
 running = True
 try:
-    while running:
-        cmd = raw_input('> ')
-        city.tick()
+    # while running:
+    #     cmd = raw_input('> ')
+    #     city.tick()
 
-        print
-        print '=' * 80
-        print
-        print renderer.get_screen()
+    #     print
+    #     print '=' * 80
+    #     print
+    #     print renderer.get_screen()
 
-        running = city.get_num_residents() > 0
+    #     running = city.get_num_residents() > 0
+    baliwan = BaliwanApplication()
+    baliwan.start()
 except KeyboardInterrupt:
     print
     pass
