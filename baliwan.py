@@ -26,16 +26,6 @@ city.zone(0x02, Dimension(6, 6), Dimension(11, 11))
 
 running = True
 try:
-    # while running:
-    #     cmd = raw_input('> ')
-    #     city.tick()
-
-    #     print
-    #     print '=' * 80
-    #     print
-    #     print renderer.get_screen()
-
-    #     running = city.get_num_residents() > 0
     baliwan = BaliwanApplication(city)
     baliwan.start()
 except KeyboardInterrupt:
