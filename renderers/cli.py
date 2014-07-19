@@ -21,7 +21,7 @@ class CLIRenderer(object):
     def __init__(self, city):
         self.city = city
 
-    def get_representation(self, tile):
+    def _get_representation(self, tile):
         zone_reps = self._zone_representations
 
         # Use only the RCI bits
@@ -38,7 +38,7 @@ class CLIRenderer(object):
 
         for row in grid:
             for thing in row:
-                symbol = self.get_representation(thing)
+                symbol = self._get_representation(thing)
                 io.write(symbol)
                 io.write(' ')
             io.write('\n')

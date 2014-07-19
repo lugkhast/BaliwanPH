@@ -36,7 +36,7 @@ try:
     #     print renderer.get_screen()
 
     #     running = city.get_num_residents() > 0
-    baliwan = BaliwanApplication()
+    baliwan = BaliwanApplication(city)
     baliwan.start()
 except KeyboardInterrupt:
     print

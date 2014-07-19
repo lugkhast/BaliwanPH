@@ -7,6 +7,9 @@ class Dimension(object):
         self.x = x
         self.y = y
 
+    def as_tuple(self):
+        return (self.x, self.y)
+
 
 class BuildingClass(object):
     RESIDENTIAL             = 'residential'

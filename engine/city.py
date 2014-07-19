@@ -28,6 +28,8 @@ class City(object):
             [TerrainTile() for x in range(0, dimensions.y)] for x in range(0, dimensions.x)
         ]
 
+        self.dimensions = dimensions
+
     def zone(self, zone_type, topleft, bottomright):
         grid = self.grid
         x = 0
@@ -57,6 +59,9 @@ class City(object):
 
     def get_num_residents(self):
         return len(self.population)
+
+    def get_tile_at(self, x, y):
+        return self.grid[x][y]
 
     def print_status(self):
         population = self.population
