@@ -39,3 +39,23 @@ class Spritesheet(object):
         tups = [(rect[0]+rect[2]*x, rect[1], rect[2], rect[3])
                 for x in range(image_count)]
         return self.images_at(tups, colorkey)
+
+
+class SizedSpritesheet(object):
+    """
+    A convenient wrapper class for spritesheets that contain identically-sized
+    images
+    """
+
+    def __init__(self, filename, size_rect):
+        self.spritesheet = Spritesheet(filename)
+        self.size_rect = size_rect
+
+    def image_at(self, x_index, y_index):
+        (width, height) = self.size_rect
+
+        x_offset = width * x_index
+        y_offset = height * y_index
+
+        print (x_offset, y_offset) + self.size_rect
+        return self.spritesheet.image_at((x_offset, y_offset) + self.size_rect)
