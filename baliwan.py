@@ -8,7 +8,7 @@ from random import random
 from engine.people import *
 from engine.buildings import *
 from engine.life import *
-from engine.city import City
+from engine.city import City, ZoneType
 from renderers.cli import CLIRenderer
 from renderers.pygame.app import BaliwanApplication
 
@@ -21,8 +21,9 @@ for person in population:
 size = Dimension(30, 30)
 city = City(population, size)
 renderer = CLIRenderer(city)
-city.zone(0x01, Dimension(0, 0), Dimension(5, 5))
-city.zone(0x02, Dimension(6, 6), Dimension(11, 11))
+city.zone(ZoneType.RESIDENTIAL, Dimension(0, 0), Dimension(5, 5))
+city.zone(ZoneType.COMMERCIAL, Dimension(6, 6), Dimension(11, 11))
+city.zone(ZoneType.INDUSTRIAL, Dimension(6, 0), Dimension(11, 5))
 
 running = True
 try:

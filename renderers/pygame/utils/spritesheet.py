@@ -57,5 +57,5 @@ class SizedSpritesheet(object):
         x_offset = width * x_index
         y_offset = height * y_index
 
-        print (x_offset, y_offset) + self.size_rect
+        print 'SizedSpritesheet: Loading texture:', (x_offset, y_offset) + self.size_rect
         return self.spritesheet.image_at((x_offset, y_offset) + self.size_rect)

@@ -19,8 +19,9 @@ class PygameRenderer(object):
 
         self.zone_reps = {
             ZoneType.UNZONED: textures.BLANK,
-            ZoneType.RESIDENTIAL: textures.DOODAD_GRASS_THICK,
-            ZoneType.COMMERCIAL: textures.DOODAD_BUSH_SMALL
+            ZoneType.RESIDENTIAL: textures.ZONE_TILE_RESIDENTIAL,
+            ZoneType.COMMERCIAL: textures.ZONE_TILE_COMMERCIAL,
+            ZoneType.INDUSTRIAL: textures.ZONE_TILE_INDUSTRIAL
         }
 
     def _get_representation(self, tile):
@@ -56,9 +57,12 @@ class PygameRenderer(object):
                 # Render the landscape layer
                 surface.blit(textures.LANDSCAPE_PLAINS, (pos_x, pos_y))
 
-                # Render the doodad layer
+                # Render the zone layer
                 image = self._get_representation(city.get_tile_at(x, y))
-                surface.blit(image, (pos_x, pos_y + DOODAD_OFFSET_Y))
+                surface.blit(image, (pos_x, pos_y))
+
+                # Render the doodad layer
+                # TODO: Implement actual doodads
 
                 # Increment positions
                 pos_x += 32
