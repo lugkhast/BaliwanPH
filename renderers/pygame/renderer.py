@@ -35,7 +35,7 @@ class PygameRenderer(object):
             print 'Got unknown tile!'
             return self.textures.BLANK
 
-    def get_screen(self, surface):
+    def get_screen(self, surface, offset):
         """
         Renders the Baliwan world.
 
@@ -50,9 +50,11 @@ class PygameRenderer(object):
 
         initial_pos_x = width / 2
 
+
+        surface.fill(pygame.Color(0, 0, 0))
         for x in range(0, grid_width):
-            pos_x = initial_pos_x - (32 * x)
-            pos_y = 16 * x + TOP_OFFSET
+            pos_x = initial_pos_x - (32 * x) + offset[0]
+            pos_y = 16 * x + offset[1]
             for y in range(0, grid_height):
                 # Render the landscape layer
                 surface.blit(textures.LANDSCAPE_PLAINS, (pos_x, pos_y))
