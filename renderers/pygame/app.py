@@ -13,18 +13,14 @@ class BaliwanApplication(object):
 
     def _mouse_button_pressed(self, event):
         if event.button is 1:
-            print 'Start moving screen!'
             self.move_key_active = True
 
     def _mouse_button_released(self, event):
         if event.button is 1:
-            print 'Stop moving screen!'
             self.move_key_active = False
 
     def _mouse_moved(self, event):
         if self.move_key_active:
-            print event
-
             (cur_x, cur_y) = self.view_offset
             (moved_x, moved_y) = event.rel
             self.view_offset = (cur_x + moved_x, cur_y + moved_y)

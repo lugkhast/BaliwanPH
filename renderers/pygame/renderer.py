@@ -50,7 +50,6 @@ class PygameRenderer(object):
 
         initial_pos_x = width / 2
 
-
         surface.fill(pygame.Color(0, 0, 0))
         for x in range(0, grid_width):
             pos_x = initial_pos_x - (32 * x) + offset[0]
