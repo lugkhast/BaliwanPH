@@ -97,11 +97,13 @@ class PygameRenderer(object):
 
         surface.fill(pygame.Color(0, 0, 0))
 
-        # Blit the pre-rendered landscape
+        # Render the landscape layer
         terrain = self.get_terrain()
+        # Align the terrain texture with the rest of the world, with offset
         landscape_offset_x = terrain.get_width() / 2 - surface.get_width() / 2
         landscape_offset = (offset[0] - landscape_offset_x, offset[1])
-        surface.blit(self.get_terrain(), landscape_offset)
+        # Blit with the calculated offset
+        surface.blit(terrain, landscape_offset)
 
         for x in range(0, grid_width):
             pos_x = initial_pos_x - (32 * (x + 1)) + offset[0]
