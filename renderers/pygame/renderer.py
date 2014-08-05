@@ -1,5 +1,6 @@
 
 import pygame
+from pygame import Surface
 from pygame.locals import *
 
 from engine.city import ZoneType
@@ -9,6 +10,7 @@ from renderers.pygame.utils.textures import TextureStorage
 
 TOP_OFFSET = 32
 DOODAD_OFFSET_Y = -32
+TILE_SIZE = 64
 
 class PygameRenderer(object):
     def __init__(self, city):
@@ -16,6 +18,7 @@ class PygameRenderer(object):
         spritesheet = Spritesheet('assets/terrain_0.png')
 
         self.textures = textures = TextureStorage()
+        self._terrain = None
 
         self.zone_reps = {
             ZoneType.UNZONED: textures.BLANK,
@@ -23,6 +26,48 @@ class PygameRenderer(object):
             ZoneType.COMMERCIAL: textures.ZONE_TILE_COMMERCIAL,
             ZoneType.INDUSTRIAL: textures.ZONE_TILE_INDUSTRIAL
         }
+
+    def _get_tile_px_offset(self, x, y, surface_width):
+        # The topmost (top-left) tile is centered by default
+        initial_pos_x = surface_width / 2
+
+        # The px calculation is done by first getting the values for the
+        # corresponding tile in the first column, then from there we get the
+        # offset to the tile we're actually calculating for.
+
+        # Position values for the first column
+        base_pos_x = initial_pos_x - (32 * (x + 1))
+        base_pos_y = 16 * x
+
+        # Additional offset for the tile we're actually calculating for
+        pos_x = base_pos_x + (32 * y)
+        pos_y = base_pos_y + (16 * y)
+
+        return (pos_x, pos_y)
+
+    def get_terrain(self):
+        if (self._terrain):
+            return self._terrain
+
+        # This pixel size calculation assumes a square city area
+        # TODO: Handle corner cases needed to support arbitrary city sizes
+        size = self.city.dimensions
+        surf_width = TILE_SIZE * (size.x + 1)
+
+        # Half of the height of a landscape tile is underground
+        # Only the bottom-most landscape tile (the bottom-right corner) has this
+        # underground area fully visible.
+        surf_height = (surf_width / 2) + (TILE_SIZE / 2)
+        surface = Surface((surf_width, surf_height), flags=SRCALPHA)
+
+        for x in range(0, size.x):
+            for y in range(0, size.y):
+                offset = self._get_tile_px_offset(x, y, surf_width)
+                surface.blit(self.textures.LANDSCAPE_PLAINS, offset)
+
+        # surface.fill(pygame.Color(128, 128, 128))
+        self._terrain = surface
+        return self._terrain
 
     def _get_representation(self, tile):
         # Use only the RCI bits
@@ -51,13 +96,17 @@ class PygameRenderer(object):
         initial_pos_x = width / 2
 
         surface.fill(pygame.Color(0, 0, 0))
+
+        # Blit the pre-rendered landscape
+        terrain = self.get_terrain()
+        landscape_offset_x = terrain.get_width() / 2 - surface.get_width() / 2
+        landscape_offset = (offset[0] - landscape_offset_x, offset[1])
+        surface.blit(self.get_terrain(), landscape_offset)
+
         for x in range(0, grid_width):
-            pos_x = initial_pos_x - (32 * x) + offset[0]
+            pos_x = initial_pos_x - (32 * (x + 1)) + offset[0]
             pos_y = 16 * x + offset[1]
             for y in range(0, grid_height):
-                # Render the landscape layer
-                surface.blit(textures.LANDSCAPE_PLAINS, (pos_x, pos_y))
-
                 # Render the zone layer
                 image = self._get_representation(city.get_tile_at(x, y))
                 surface.blit(image, (pos_x, pos_y))
