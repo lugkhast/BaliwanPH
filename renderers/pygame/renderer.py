@@ -4,8 +4,8 @@ from pygame import Surface
 from pygame.locals import *
 
 from engine.city import ZoneType
-from renderers.pygame.utils.spritesheet import Spritesheet
-from renderers.pygame.utils.textures import TextureStorage
+from .utils.spritesheet import Spritesheet
+from .utils.textures import TextureStorage
 
 
 TOP_OFFSET = 32

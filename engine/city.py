@@ -1,5 +1,6 @@
 
 class ZoneType:
+    # The least-significant nibble is used for RCI data
     UNZONED = 0x00
 
     RESIDENTIAL = 0x01
@@ -7,7 +8,8 @@ class ZoneType:
     INDUSTRIAL = 0x04
     ALL_TYPES = RESIDENTIAL | COMMERCIAL | INDUSTRIAL
 
-    LOW_DENSITY = 0x01 # Low-density only (b0001)
+    # The second least-significant nibble is used for density
+    LOW_DENSITY = 0x10 # Low-density only (b0001)
     MID_DENSITY = 0x30 # Allow both low and medium densities (0011)
     HIGH_DENSITY = 0x70 # Allow low, medium and high densities (0111)
 
