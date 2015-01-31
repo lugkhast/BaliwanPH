@@ -60,7 +60,7 @@ class BaliwanApplication(object):
             mouse_pos = pygame.mouse.get_pos()
             (pos_x, pos_y) = self._px_to_tile_coords(mouse_pos)
 
-            if city_size.x > pos_x > 0 and city_size.y > pos_y > 0:
+            if city_size.x > pos_x >= 0 and city_size.y > pos_y >= 0:
                 self.overlay_layer[pos_x][pos_y] = True
 
     def start(self):

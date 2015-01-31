@@ -99,6 +99,6 @@ class PygameRenderer(object):
 
                 # Render the overlay
                 if overlay[x][y]:
-                    surface.blit(self.textures.ZONE_TILE_RESIDENTIAL, (pos_x, pos_y))
+                    surface.blit(self.textures.ROAD_VERTICAL, (pos_x, pos_y))
 
         return surface
