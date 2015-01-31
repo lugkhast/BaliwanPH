@@ -12,11 +12,11 @@ class BaliwanApplication(object):
         self.view_offset = (0, 0)
 
     def _mouse_button_pressed(self, event):
-        if event.button is 1:
+        if event.button is 3:
             self.move_key_active = True
 
     def _mouse_button_released(self, event):
-        if event.button is 1:
+        if event.button is 3:
             self.move_key_active = False
 
     def _mouse_moved(self, event):
