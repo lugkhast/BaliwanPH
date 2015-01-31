@@ -67,7 +67,7 @@ class PygameRenderer(object):
             print 'Got unknown tile!'
             return self.textures.BLANK
 
-    def get_screen(self, surface, offset):
+    def get_screen(self, surface, offset, overlay):
         """
         Renders the Baliwan world.
 
@@ -86,11 +86,7 @@ class PygameRenderer(object):
 
         # Render the landscape layer
         terrain = self.get_terrain()
-        # Align the terrain texture with the rest of the world, with offset
-        landscape_offset_x = 0
-        landscape_offset = (offset[0] - landscape_offset_x, offset[1])
-        # Blit with the calculated offset
-        surface.blit(terrain, landscape_offset)
+        surface.blit(terrain, offset)
 
         for x in range(0, grid_width):
             pos_x = (x * 32) + offset[0]
@@ -100,5 +96,9 @@ class PygameRenderer(object):
                 # Render the zone layer
                 image = self._get_representation(city.get_tile_at(x, y))
                 surface.blit(image, (pos_x, pos_y))
+
+                # Render the overlay
+                if overlay[x][y]:
+                    surface.blit(self.textures.ZONE_TILE_RESIDENTIAL, (pos_x, pos_y))
 
         return surface
