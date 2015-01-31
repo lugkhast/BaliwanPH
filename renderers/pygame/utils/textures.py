@@ -11,7 +11,7 @@ class TextureStorage(object):
     def __init__(self):
         spritesheet = SizedSpritesheet('assets/flatass.png', (32, 32))
 
-        self.BLANK = spritesheet.image_at(2, 0)
+        self.BLANK = spritesheet.image_at(0, 0)
         self.LANDSCAPE_PLAINS = spritesheet.image_at(2, 0)
         
         self.DOODAD_GRASS_THICK = spritesheet.image_at(4, 11)
