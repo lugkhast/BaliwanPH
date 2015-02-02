@@ -67,7 +67,7 @@ class PygameRenderer(object):
             print 'Got unknown tile!'
             return self.textures.BLANK
 
-    def get_screen(self, surface, offset, overlay):
+    def get_screen(self, surface, offset, overlay, place_direction=None):
         """
         Renders the Baliwan world.
 
@@ -99,6 +99,10 @@ class PygameRenderer(object):
 
                 # Render the overlay
                 if overlay[x][y]:
-                    surface.blit(self.textures.ROAD_VERTICAL, (pos_x, pos_y))
+                    if place_direction is 'VERTICAL':
+                        texture = self.textures.ROAD_VERTICAL
+                    else:
+                        texture = self.textures.ROAD_HORIZONTAL
+                    surface.blit(texture, (pos_x, pos_y))
 
         return surface

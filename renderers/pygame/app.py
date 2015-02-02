@@ -1,4 +1,6 @@
 
+import math
+
 import pygame
 from pygame.locals import *
 
@@ -11,8 +13,10 @@ class BaliwanApplication(object):
         self.city = city
 
         self.move_key_active = False
+
         self.is_placing_object = False
         self.placing_drag_start = None
+        self.place_direction = None
 
         self.view_offset = (0, 0)
 
@@ -41,6 +45,7 @@ class BaliwanApplication(object):
             self.move_key_active = True
         elif event.button is 1:
             self.is_placing_object = True
+            self.placing_drag_start = self._px_to_tile_coords(pygame.mouse.get_pos())
 
     def _mouse_button_released(self, event):
         if event.button is 3:
@@ -48,6 +53,38 @@ class BaliwanApplication(object):
         elif event.button is 1:
             self.is_placing_object = False
             self._clear_overlay()
+
+    def _mark_tiles(self, start_coords, end_coords):
+        if start_coords[0] == end_coords[0]:
+            # Same X coordinate - vertical road
+            x_coord = start_coords[0]
+            start_y = start_coords[1]
+            end_y = end_coords[1]
+
+            # If we're going up, swap our values for the loop
+            if start_y > end_y:
+                tmp = start_y
+                start_y = end_y
+                end_y = tmp
+
+            for i in range(start_y, end_y + 1):
+                self.overlay_layer[x_coord][i] = True
+        elif start_coords[1] == end_coords[1]:
+            y_coord = start_coords[1]
+            start_x = start_coords[0]
+            end_x = end_coords[0]
+
+            # If we're going left, swap our values for the loop
+            if start_x > end_x:
+                tmp = start_x
+                start_x = end_x
+                end_x = tmp
+
+            for i in range(start_x, end_x + 1):
+                self.overlay_layer[i][y_coord] = True
+        else:
+            # Invalid
+            print('Invalid start/end coords', start_coords, end_coords)
 
     def _mouse_moved(self, event):
         if self.move_key_active:
@@ -59,9 +96,23 @@ class BaliwanApplication(object):
             city_size = self.city.dimensions
             mouse_pos = pygame.mouse.get_pos()
             (pos_x, pos_y) = self._px_to_tile_coords(mouse_pos)
+            (start_x, start_y) = self.placing_drag_start
 
             if city_size.x > pos_x >= 0 and city_size.y > pos_y >= 0:
-                self.overlay_layer[pos_x][pos_y] = True
+                # The cursor is on a location we can work with
+                self._clear_overlay()
+
+                delta_x = math.fabs(start_x - pos_x)
+                delta_y = math.fabs(start_y - pos_y)
+
+                if delta_x < delta_y:
+                    self.place_direction = 'VERTICAL'
+                    road_end_coord = (start_x, pos_y)
+                    self._mark_tiles(self.placing_drag_start, road_end_coord)
+                else:
+                    self.place_direction = 'HORIZONTAL'
+                    road_end_coord = (pos_x, start_y)
+                    self._mark_tiles(self.placing_drag_start, road_end_coord)
 
     def start(self):
         self.display_surface = pygame.display.set_mode((1024, 600))
@@ -86,7 +137,8 @@ class BaliwanApplication(object):
                 renderer.get_screen(
                     self.display_surface,
                     self.view_offset,
-                    self.overlay_layer
+                    self.overlay_layer,
+                    self.place_direction
                 )
                 pygame.display.update()
                 fps_clock.tick(60)
