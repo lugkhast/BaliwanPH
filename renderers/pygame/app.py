@@ -54,7 +54,7 @@ class BaliwanApplication(object):
     def _mouse_button_released(self, event):
         if event.button is 3:
             self.move_key_active = False
-        elif event.button is 1:
+        elif event.button is 1 and self.is_placing_object:
             self.is_placing_object = False
             self._clear_overlay()
 
