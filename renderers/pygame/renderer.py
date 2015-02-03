@@ -8,9 +8,8 @@ from .utils.spritesheet import Spritesheet
 from .utils.textures import TextureStorage
 
 
-TOP_OFFSET = 32
-DOODAD_OFFSET_Y = -32
 TILE_SIZE = 32
+
 
 class PygameRenderer(object):
     def __init__(self, city):
@@ -89,9 +88,9 @@ class PygameRenderer(object):
         surface.blit(terrain, offset)
 
         for x in range(0, grid_width):
-            pos_x = (x * 32) + offset[0]
+            pos_x = (x * TILE_SIZE) + offset[0]
             for y in range(0, grid_height):
-                pos_y = (y * 32) + offset[1]
+                pos_y = (y * TILE_SIZE) + offset[1]
                 
                 # Render the zone layer
                 image = self._get_representation(city.get_tile_at(x, y))
@@ -121,7 +120,7 @@ class PygameRenderer(object):
                                 texture = self.textures.ROAD_SINGLE
                             else:
                                 texture = self.textures.ROAD_HORIZONTAL_END_LEFT
-                                
+
                     surface.blit(texture, (pos_x, pos_y))
 
         return surface
