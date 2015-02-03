@@ -130,7 +130,10 @@ class BaliwanApplication(object):
             self._clear_overlay()
 
     def start(self):
-        self.display_surface = pygame.display.set_mode((1024, 600))
+        self.display_surface = pygame.display.set_mode(
+            (1024, 600),
+            HWSURFACE | DOUBLEBUF | RESIZABLE
+        )
         pygame.display.set_caption('BaliwanPH')
         renderer = PygameRenderer(self.city)
 
@@ -149,6 +152,12 @@ class BaliwanApplication(object):
                     self._mouse_moved(event)
                 elif event.type == KEYDOWN:
                     self._key_down(event)
+                elif event.type == VIDEORESIZE:
+                    # Adapted from http://www.pygame.org/wiki/WindowResizing?parent=CookBook
+                    self.display_surface = pygame.display.set_mode(
+                        event.dict['size'],
+                        HWSURFACE | DOUBLEBUF | RESIZABLE
+                    )
 
             if running:
                 renderer.get_screen(
