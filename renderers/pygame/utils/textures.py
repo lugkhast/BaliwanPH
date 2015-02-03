@@ -22,7 +22,13 @@ class TextureStorage(object):
         self.ZONE_TILE_COMMERCIAL = spritesheet.image_at(6, 1)
         self.ZONE_TILE_INDUSTRIAL = spritesheet.image_at(7, 1)
 
+        self.ROAD_SINGLE = spritesheet.image_at(7, 2)
         self.ROAD_VERTICAL = spritesheet.image_at(1, 2)
+        self.ROAD_HORIZONTAL_END_RIGHT = spritesheet.image_at(4, 3)
+        self.ROAD_HORIZONTAL_END_LEFT = spritesheet.image_at(6, 3)
+        self.ROAD_VERTICAL_END_TOP = spritesheet.image_at(7, 3)
+        self.ROAD_VERTICAL_END_BOTTOM = spritesheet.image_at(5, 3)
+
         self.ROAD_HORIZONTAL = spritesheet.image_at(0, 2)
 
         self.FLAT_GRASS = spritesheet.image_at(1, 0)

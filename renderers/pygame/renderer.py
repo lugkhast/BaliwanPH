@@ -100,9 +100,28 @@ class PygameRenderer(object):
                 # Render the overlay
                 if overlay[x][y]:
                     if place_direction is 'VERTICAL':
-                        texture = self.textures.ROAD_VERTICAL
+                        if y > 0 and overlay[x][y - 1]:
+                            if y < grid_height - 1 and not overlay[x][y + 1]:
+                                texture = self.textures.ROAD_VERTICAL_END_BOTTOM
+                            else:
+                                texture = self.textures.ROAD_VERTICAL
+                        else:
+                            if y < grid_height - 1 and not overlay[x][y + 1]:
+                                texture = self.textures.ROAD_SINGLE
+                            else:
+                                texture = self.textures.ROAD_VERTICAL_END_TOP
                     else:
-                        texture = self.textures.ROAD_HORIZONTAL
+                        if x > 0 and overlay[x - 1][y]:
+                            if x < grid_width - 1 and not overlay[x + 1][y]:
+                                texture = self.textures.ROAD_HORIZONTAL_END_RIGHT
+                            else:
+                                texture = self.textures.ROAD_HORIZONTAL
+                        else:
+                            if x < grid_width - 1 and not overlay[x + 1][y]:
+                                texture = self.textures.ROAD_SINGLE
+                            else:
+                                texture = self.textures.ROAD_HORIZONTAL_END_LEFT
+                                
                     surface.blit(texture, (pos_x, pos_y))
 
         return surface
