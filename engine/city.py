@@ -16,7 +16,13 @@ class ZoneType:
 
 class TerrainTile(object):
     zone_type = None
+    
+    # Road-related data
     road_size = 0
+    road_north = False
+    road_south = False
+    road_east = False
+    road_west = False
 
     def __init__(self, zone_type=ZoneType.UNZONED):
         self.zone_type = zone_type
@@ -66,6 +72,34 @@ class City(object):
                     x += 1
             y += 1
 
+    def update_road_adjacency(self, coord):
+        (x, y) = coord
+        center_tile = self.grid[x][y]
+
+        if x > 0:
+            other_tile = self.grid[x - 1][y]
+            if other_tile.has_road():
+                other_tile.road_east = True
+                center_tile.road_west = True
+
+        if x < self.dimensions.x - 1:
+            other_tile = self.grid[x + 1][y]
+            if other_tile.has_road():
+                other_tile.road_west = True
+                center_tile.road_east = True
+
+        if y > 0:
+            other_tile = self.grid[x][y - 1]
+            if other_tile.has_road():
+                other_tile.road_south = True
+                center_tile.road_north = True
+
+        if y < self.dimensions.y - 1:
+            other_tile = self.grid[x][y + 1]
+            if other_tile.has_road():
+                other_tile.road_north = True
+                center_tile.road_south = True
+
     def lay_road(self, start, end, is_big=False):
         (start_x, start_y) = start
         (end_x, end_y) = end
@@ -78,14 +112,18 @@ class City(object):
                 (start_y, end_y) = (end_y, start_y)
 
             for i in range(start_y, end_y + 1):
-                self.grid[start_x][i].place_road(is_big=is_big)
+                tile = self.grid[start_x][i]
+                tile.place_road(is_big=is_big)
+                self.update_road_adjacency((start_x, i))
         elif start_y == end_y:
             # Horizontal!
             if start_x > end_x:
                 (start_x, end_x) = (end_x, start_x)
 
             for i in range(start_x, end_x + 1):
-                self.grid[i][start_y].place_road(is_big=is_big)
+                tile = self.grid[i][start_y]
+                tile.place_road(is_big=is_big)
+                self.update_road_adjacency((i, start_y))
         else:
             print 'Received invalid road parameters!'
 

@@ -55,13 +55,64 @@ class PygameRenderer(object):
         self._terrain = surface
         return self._terrain
 
+    def _get_road_representation(self, tile):
+        # TODO: Figure out a cleaner way to do this
+        # Current approach: treat it like a sorta kinda binary number
+        north = tile.road_north
+        east = tile.road_east
+        south = tile.road_south
+        west = tile.road_west
+
+        road_texture = None
+        textures = self.textures
+
+        if not (north or east or south or west):
+            road_texture = textures.ROAD_SINGLE
+        elif not (north or east or south) and west:
+            road_texture = textures.ROAD_HORIZONTAL_END_RIGHT
+        elif not (north or east) and south and not west:
+            road_texture = textures.ROAD_VERTICAL_END_TOP
+        elif not (north or east) and south and west:
+            road_texture = textures.ROAD_L_SOUTH_WEST
+        elif not north and east and not (south or west):
+            road_texture = textures.ROAD_HORIZONTAL_END_LEFT
+        elif not north and east and not south and west:
+            road_texture = textures.ROAD_HORIZONTAL
+        elif not north and east and south and not west:
+            road_texture = textures.ROAD_L_SOUTH_EAST
+        elif not north and east and south and west:
+            road_texture = textures.ROAD_T_SOUTH
+        elif north and not (east or south or west):
+            road_texture = textures.ROAD_VERTICAL_END_BOTTOM
+        elif north and not (east or south) and west:
+            road_texture = textures.ROAD_L_NORTH_WEST
+        elif north and not east and south and not west:
+            road_texture = textures.ROAD_VERTICAL
+        elif north and not east and south and west:
+            road_texture = textures.ROAD_T_WEST
+        elif north and east and not (south or west):
+            road_texture = textures.ROAD_L_NORTH_EAST
+        elif north and east and not south and west:
+            road_texture = textures.ROAD_T_NORTH
+        elif north and east and south and not west:
+            road_texture = textures.ROAD_T_EAST
+        elif north and east and south and west:
+            road_texture = textures.ROAD_INTERSECTION
+        else:
+            print 'Unable to determine correct road sprite'
+
+        return road_texture
+
+
     def _get_representation(self, tile):
         # Use only the RCI bits
         zone_reps = self.zone_reps
         rci_type = tile.zone_type & ZoneType.ALL_TYPES
 
-        if zone_reps.has_key(rci_type):
+        if zone_reps.has_key(rci_type) and not tile.has_road():
             return zone_reps[rci_type]
+        elif tile.has_road():
+            return self._get_road_representation(tile)
         else:
             print 'Got unknown tile!'
             return self.textures.BLANK

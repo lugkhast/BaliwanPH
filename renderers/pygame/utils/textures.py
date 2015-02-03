@@ -29,6 +29,17 @@ class TextureStorage(object):
         self.ROAD_VERTICAL_END_TOP = spritesheet.image_at(7, 3)
         self.ROAD_VERTICAL_END_BOTTOM = spritesheet.image_at(5, 3)
 
+        self.ROAD_INTERSECTION = spritesheet.image_at(2, 2)
+        self.ROAD_T_SOUTH = spritesheet.image_at(3, 2)
+        self.ROAD_T_WEST = spritesheet.image_at(4, 2)
+        self.ROAD_T_NORTH = spritesheet.image_at(5, 2)
+        self.ROAD_T_EAST = spritesheet.image_at(6, 2)
+
+        self.ROAD_L_SOUTH_WEST = spritesheet.image_at(0, 3)
+        self.ROAD_L_NORTH_WEST = spritesheet.image_at(1, 3)
+        self.ROAD_L_NORTH_EAST = spritesheet.image_at(2, 3)
+        self.ROAD_L_SOUTH_EAST = spritesheet.image_at(3, 3)
+
         self.ROAD_HORIZONTAL = spritesheet.image_at(0, 2)
 
         self.FLAT_GRASS = spritesheet.image_at(1, 0)
