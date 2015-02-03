@@ -54,6 +54,8 @@ class BaliwanApplication(object):
             self.is_placing_object = False
             self._clear_overlay()
 
+            self.city.lay_road(self.placing_drag_start, self.placing_last_valid_end)
+
     def _mark_tiles(self, start_coords, end_coords):
         if start_coords[0] == end_coords[0]:
             # Same X coordinate - vertical road
@@ -113,6 +115,10 @@ class BaliwanApplication(object):
                     self.place_direction = 'HORIZONTAL'
                     road_end_coord = (pos_x, start_y)
                     self._mark_tiles(self.placing_drag_start, road_end_coord)
+
+                # Record the adjusted road end coordinate to end up with valid
+                # road parameters later
+                self.placing_last_valid_end = road_end_coord
 
     def _key_down(self, event):
         if event.key == K_ESCAPE:
