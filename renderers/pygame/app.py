@@ -47,6 +47,10 @@ class BaliwanApplication(object):
             self.is_placing_object = True
             self.placing_drag_start = self._px_to_tile_coords(pygame.mouse.get_pos())
 
+            # Initialize the last known valid position, in case the mouse is
+            # not moved. This makes us lay down a single tile instead of crashing.
+            self.placing_last_valid_end = self.placing_drag_start
+
     def _mouse_button_released(self, event):
         if event.button is 3:
             self.move_key_active = False
