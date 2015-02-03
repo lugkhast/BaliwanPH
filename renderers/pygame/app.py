@@ -114,6 +114,11 @@ class BaliwanApplication(object):
                     road_end_coord = (pos_x, start_y)
                     self._mark_tiles(self.placing_drag_start, road_end_coord)
 
+    def _key_down(self, event):
+        if event.key == K_ESCAPE:
+            self.is_placing_object = False
+            self._clear_overlay()
+
     def start(self):
         self.display_surface = pygame.display.set_mode((1024, 600))
         pygame.display.set_caption('BaliwanPH')
@@ -132,6 +137,8 @@ class BaliwanApplication(object):
                     self._mouse_button_released(event)
                 elif event.type == MOUSEMOTION:
                     self._mouse_moved(event)
+                elif event.type == KEYDOWN:
+                    self._key_down(event)
 
             if running:
                 renderer.get_screen(
