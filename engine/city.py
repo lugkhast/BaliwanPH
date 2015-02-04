@@ -1,4 +1,7 @@
 
+from __future__ import print_function
+
+
 class ZoneType:
     # The least-significant nibble is used for RCI data
     UNZONED = 0x00
@@ -78,7 +81,7 @@ class City(object):
 
         if x > 0:
             other_tile = self.grid[x - 1][y]
-            if other_tile.has_road():
+            if other_tile.has_road(): 
                 other_tile.road_east = True
                 center_tile.road_west = True
 
@@ -125,7 +128,7 @@ class City(object):
                 tile.place_road(is_big=is_big)
                 self.update_road_adjacency((i, start_y))
         else:
-            print 'Received invalid road parameters!'
+            print('Received invalid road parameters!')
 
     def tick(self):
         for person in self.population:
@@ -142,13 +145,13 @@ class City(object):
     def print_status(self):
         population = self.population
         num_population = len(population)
-        print 'Population: %d' % num_population
+        print('Population: %d' % num_population)
 
         if num_population == 0:
-            print 'Nobody is left!'
+            print('Nobody is left!')
         else:
             healths = '|'.join([str(p.health) for p in population])
             moneys = '|'.join([str(p.money) for p in population])
 
-            print 'Moneys:  %s' % moneys
-            print 'Healths: %s' % healths
+            print('Moneys:  %s' % moneys)
+            print('Healths: %s' % healths)
