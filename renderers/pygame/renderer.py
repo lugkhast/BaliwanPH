@@ -148,7 +148,7 @@ class PygameRenderer(object):
                 surface.blit(image, (pos_x, pos_y))
 
                 # Render the overlay
-                if overlay[x][y]:
+                if overlay[x][y].has_road():
                     if place_direction is 'VERTICAL':
                         if y > 0 and overlay[x][y - 1]:
                             if y < grid_height - 1 and not overlay[x][y + 1]:

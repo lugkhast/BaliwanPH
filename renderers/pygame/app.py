@@ -4,6 +4,7 @@ import math
 import pygame
 from pygame.locals import *
 
+from engine.city import TerrainTile
 from renderers.pygame import renderer
 from renderers.pygame.renderer import PygameRenderer
 
@@ -22,14 +23,15 @@ class BaliwanApplication(object):
 
         city_size = city.dimensions
         self.overlay_layer = [
-            [None for x in range(0, city_size.y)] for x in range(0, city_size.x)
+            [TerrainTile() for x in range(0, city_size.y)] for x in range(0, city_size.x)
         ]
 
     def _clear_overlay(self):
         city_size = self.city.dimensions
         for i in range(0, city_size.x):
             for j in range(0, city_size.y):
-                self.overlay_layer[i][j] = None
+                tile = self.overlay_layer[i][j]
+                tile.reset()
 
     def _px_to_tile_coords(self, px_tuple):
         (xpix, ypix) = px_tuple
@@ -74,7 +76,7 @@ class BaliwanApplication(object):
                 end_y = tmp
 
             for i in range(start_y, end_y + 1):
-                self.overlay_layer[x_coord][i] = True
+                self.overlay_layer[x_coord][i].place_road()
         elif start_coords[1] == end_coords[1]:
             y_coord = start_coords[1]
             start_x = start_coords[0]
@@ -87,7 +89,7 @@ class BaliwanApplication(object):
                 end_x = tmp
 
             for i in range(start_x, end_x + 1):
-                self.overlay_layer[i][y_coord] = True
+                self.overlay_layer[i][y_coord].place_road()
         else:
             # Invalid
             print('Invalid start/end coords', start_coords, end_coords)

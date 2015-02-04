@@ -28,7 +28,19 @@ class TerrainTile(object):
     road_west = False
 
     def __init__(self, zone_type=ZoneType.UNZONED):
+        self.reset()
         self.zone_type = zone_type
+
+    def reset(self):
+        """
+        Puts a TerrainTile into its default state
+        """
+        self.zone_type = None
+        self.road_size = 0
+        self.road_north = False
+        self.road_south = False
+        self.road_east = False
+        self.road_west = False
 
     def place_road(self, is_big=False):
         self.zone_type = ZoneType.UNZONED
