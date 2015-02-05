@@ -165,8 +165,7 @@ class BaliwanApplication(object):
                 renderer.get_screen(
                     self.display_surface,
                     self.view_offset,
-                    self.overlay_layer,
-                    self.place_direction
+                    self.overlay_layer
                 )
                 pygame.display.update()
                 fps_clock.tick(60)

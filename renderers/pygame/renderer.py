@@ -117,7 +117,7 @@ class PygameRenderer(object):
             print 'Got unknown tile!'
             return self.textures.BLANK
 
-    def get_screen(self, surface, offset, overlay, place_direction=None):
+    def get_screen(self, surface, offset, overlay):
         """
         Renders the Baliwan world.
 
@@ -148,30 +148,10 @@ class PygameRenderer(object):
                 surface.blit(image, (pos_x, pos_y))
 
                 # Render the overlay
-                if overlay[x][y].has_road():
-                    if place_direction is 'VERTICAL':
-                        if y > 0 and overlay[x][y - 1]:
-                            if y < grid_height - 1 and not overlay[x][y + 1]:
-                                texture = self.textures.ROAD_VERTICAL_END_BOTTOM
-                            else:
-                                texture = self.textures.ROAD_VERTICAL
-                        else:
-                            if y < grid_height - 1 and not overlay[x][y + 1]:
-                                texture = self.textures.ROAD_SINGLE
-                            else:
-                                texture = self.textures.ROAD_VERTICAL_END_TOP
-                    else:
-                        if x > 0 and overlay[x - 1][y]:
-                            if x < grid_width - 1 and not overlay[x + 1][y]:
-                                texture = self.textures.ROAD_HORIZONTAL_END_RIGHT
-                            else:
-                                texture = self.textures.ROAD_HORIZONTAL
-                        else:
-                            if x < grid_width - 1 and not overlay[x + 1][y]:
-                                texture = self.textures.ROAD_SINGLE
-                            else:
-                                texture = self.textures.ROAD_HORIZONTAL_END_LEFT
-
+                overlay_tile = overlay[x][y]
+                if overlay_tile.has_road():
+                    overlay_tile.update_road_adjacency(overlay, (x, y))
+                    texture = self._get_representation(overlay_tile)
                     surface.blit(texture, (pos_x, pos_y))
 
         return surface

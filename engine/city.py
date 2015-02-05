@@ -53,6 +53,36 @@ class TerrainTile(object):
     def has_road(self):
         return self.road_size > 0
 
+    def update_road_adjacency(self, grid, coord):
+        grid_width = len(grid)
+        grid_height = len(grid[0])
+        (x, y) = coord
+        center_tile = grid[x][y]
+
+        if x > 0:
+            other_tile = grid[x - 1][y]
+            if other_tile.has_road(): 
+                other_tile.road_east = True
+                center_tile.road_west = True
+
+        if x < grid_width - 1:
+            other_tile = grid[x + 1][y]
+            if other_tile.has_road():
+                other_tile.road_west = True
+                center_tile.road_east = True
+
+        if y > 0:
+            other_tile = grid[x][y - 1]
+            if other_tile.has_road():
+                other_tile.road_south = True
+                center_tile.road_north = True
+
+        if y < grid_height - 1:
+            other_tile = grid[x][y + 1]
+            if other_tile.has_road():
+                other_tile.road_north = True
+                center_tile.road_south = True
+
 
 class City(object):
     def __init__(self, population, dimensions):
@@ -90,30 +120,7 @@ class City(object):
     def update_road_adjacency(self, coord):
         (x, y) = coord
         center_tile = self.grid[x][y]
-
-        if x > 0:
-            other_tile = self.grid[x - 1][y]
-            if other_tile.has_road(): 
-                other_tile.road_east = True
-                center_tile.road_west = True
-
-        if x < self.dimensions.x - 1:
-            other_tile = self.grid[x + 1][y]
-            if other_tile.has_road():
-                other_tile.road_west = True
-                center_tile.road_east = True
-
-        if y > 0:
-            other_tile = self.grid[x][y - 1]
-            if other_tile.has_road():
-                other_tile.road_south = True
-                center_tile.road_north = True
-
-        if y < self.dimensions.y - 1:
-            other_tile = self.grid[x][y + 1]
-            if other_tile.has_road():
-                other_tile.road_north = True
-                center_tile.road_south = True
+        center_tile.update_road_adjacency(self.grid, coord)
 
     def lay_road(self, start, end, is_big=False):
         (start_x, start_y) = start
