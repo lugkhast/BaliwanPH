@@ -71,9 +71,7 @@ class BaliwanApplication(object):
 
             # If we're going up, swap our values for the loop
             if start_y > end_y:
-                tmp = start_y
-                start_y = end_y
-                end_y = tmp
+                (start_y, end_y) = (end_y, start_y)
 
             for i in range(start_y, end_y + 1):
                 self.overlay_layer[x_coord][i].place_road()
@@ -84,9 +82,7 @@ class BaliwanApplication(object):
 
             # If we're going left, swap our values for the loop
             if start_x > end_x:
-                tmp = start_x
-                start_x = end_x
-                end_x = tmp
+                (start_x, end_x) = (end_x, start_x)
 
             for i in range(start_x, end_x + 1):
                 self.overlay_layer[i][y_coord].place_road()
